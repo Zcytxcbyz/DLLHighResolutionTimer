@@ -1,0 +1,4 @@
+LIBRARY "HighResolutionTimer"
+EXPORTS
+	GetCycleCount
+	GetFrequency
