@@ -19,9 +19,11 @@ LONGLONG GetFrequency(DWORD sleepTime)
     LARGE_INTEGER fq, st, ed;
     QueryPerformanceFrequency(&fq);
     QueryPerformanceCounter(&st);
+    QueryThreadCycleTime(GetCurrentThread(), &st);
     LONGLONG begin = GetCycleCount();
     Sleep(sleepTime);
     QueryPerformanceCounter(&ed);
+    QueryThreadCycleTime(GetCurrentThread(), &ed);
     LONGLONG end = GetCycleCount();
     return (end - begin) * fq.QuadPart / (ed.QuadPart - st.QuadPart);
 }
