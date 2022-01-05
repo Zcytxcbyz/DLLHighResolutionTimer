@@ -16,14 +16,15 @@ inline ULONGLONG GetCycleCount()
 
 LONGLONG GetFrequency(DWORD sleepTime)
 {
+    SetProcessAffinityMask(GetCurrentProcess(), 0x0);
+    SetThreadAffinityMask(GetCurrentThread(), 1);
+    SetPriorityClass(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
     LARGE_INTEGER fq, st, ed;
     QueryPerformanceFrequency(&fq);
     QueryPerformanceCounter(&st);
-    QueryThreadCycleTime(GetCurrentThread(), &st);
     LONGLONG begin = GetCycleCount();
     Sleep(sleepTime);
     QueryPerformanceCounter(&ed);
-    QueryThreadCycleTime(GetCurrentThread(), &ed);
     LONGLONG end = GetCycleCount();
     return (end - begin) * fq.QuadPart / (ed.QuadPart - st.QuadPart);
 }
