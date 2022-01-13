@@ -1,15 +1,16 @@
 #include "HighResolutionTimer.h"
 
 #if _WIN64
-inline ULONGLONG GetCycleCount();
+inline ULONGLONG  GetCycleCount();
 #elif _WIN32
-inline ULONGLONG GetCycleCount()
+inline ULONGLONG  GetCycleCount()
 {
-	__asm
-	{
-		_emit 0x0F;
-		_emit 0x31;
-	}
+    __asm
+    {
+        _emit 0x0F;
+        _emit 0x01;
+        _emit 0xF9;
+    }
 }
 #endif 
 
