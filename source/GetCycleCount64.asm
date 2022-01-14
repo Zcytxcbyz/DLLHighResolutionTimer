@@ -1,7 +1,6 @@
 .code
-  GetCycleCount proc 
-  cpuid
-  rdtsc
-  ret
-  GetCycleCount endp
+GetCycleCount proc	
+rdtscp
+ret
+GetCycleCount endp
 end
