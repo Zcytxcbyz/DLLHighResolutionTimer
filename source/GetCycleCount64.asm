@@ -1,6 +1,6 @@
 .code
 GetCycleCount proc	
-rdtscp
+rdtsc
 ret
 GetCycleCount endp
 end
