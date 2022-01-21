@@ -8,12 +8,16 @@ inline ULONGLONG  GetCycleCount()
     __asm
     {
         _emit 0x0F;
-        _emit 0x01;
-        _emit 0xF9;
+        _emit 0xAE;
+        _emit 0xE8;
+        _emit 0x0F;
+        _emit 0x31;
+        _emit 0x0F;
+        _emit 0xAE;
+        _emit 0xE8;
     }
 }
-#endif 
-
+#endif
 
 LONGLONG GetFrequency(DWORD sleepTime)
 {
