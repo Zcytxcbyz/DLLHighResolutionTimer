@@ -1,4 +1,7 @@
 #include "HighResolutionTimer.h"
+#pragma comment(lib, "winmm.lib")
+#pragma comment(lib, "ntdll.lib")
+#include <MMSystem.h>
 
 #if _WIN64
 inline ULONGLONG  GetCycleCount();
@@ -7,29 +10,28 @@ inline ULONGLONG  GetCycleCount()
 {
     __asm
     {
-        _emit 0x0F;
-        _emit 0xAE;
-        _emit 0xE8;
-        _emit 0x0F;
         _emit 0x31;
         _emit 0x0F;
-        _emit 0xAE;
-        _emit 0xE8;
     }
 }
 #endif
 
+//void PASCAL OneMilliSecondProc(UINT wTimerID, UINT msg, DWORD dwUser, DWORD dw1, DWORD dw2)
+//{
+//}
+
 LONGLONG GetFrequency(DWORD sleepTime)
 {
-    double clockfreq;
     SetThreadAffinityMask(GetCurrentThread(), 0x01);
     LARGE_INTEGER fq, st, ed;
     QueryPerformanceFrequency(&fq);
-    clockfreq = fq.QuadPart / 1000000;
     QueryPerformanceCounter(&st);
     LONGLONG begin = GetCycleCount();
+    //timeSetEvent(1000, 0, (LPTIMECALLBACK)OneMilliSecondProc, (DWORD)(0), TIME_PERIODIC);
+    timeBeginPeriod(begin);
     Sleep(sleepTime);
     QueryPerformanceCounter(&ed);   
     LONGLONG end = GetCycleCount();
+    timeEndPeriod(end);
     return (end - begin) * fq.QuadPart / (ed.QuadPart - st.QuadPart);
 }
